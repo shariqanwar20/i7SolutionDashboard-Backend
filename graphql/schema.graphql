@@ -1,0 +1,97 @@
+scalar AWSDate
+scalar AWSTime
+scalar AWSDateTime
+scalar AWSTimestamp
+scalar AWSEmail
+scalar AWSJSON
+scalar AWSURL
+scalar AWSPhone
+scalar AWSIPAddress
+
+type Query {
+  #   getOrders(input: getOrdersInput!): [Order!]
+  #   getOrderById(input: getOrderById!): Order!
+  getProducts: [Product!]
+}
+
+type Mutation {
+  #   createOrder(input: createOrderInput!): Order!
+  #   updateOrder(input: updateOrderInput!): Order!
+  addSite(input: SiteInput!): Site!
+  # createProduct(input: createProductInput!): Product!
+  
+  # addProductsToShopify(input: addProductsToShopifyInput!): ShopifyProduct!
+  # updateProduct(input: updateProductInput!): Product!
+}
+
+type Site {
+  id: ID!
+  owner: ID!
+  name: String!
+  url: AWSURL!
+}
+
+input SiteInput {
+  owner: ID!
+  name: String!
+  url: AWSURL!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  description: String!
+  msrp: Float!
+  cost: Float!
+  images: [String]
+  inventoryQuantity: Int!
+  createdAt: AWSDateTime!
+  storesPublished: [String]!
+}
+
+input createProductInput {
+  name: String!
+  description: String!
+  msrp: Float!
+  cost: Float
+  images: [String]
+  inventoryQuantity: Int!
+  createdAt: AWSDateTime
+}
+
+input getProductsInput {
+  pageNumber: Int!
+  pageSize: Int!
+}
+
+input createOrderInput {
+  id: String!
+  customer: String!
+  status: Status!
+  fulfillment: Fulfillment!
+  total: Int!
+  items: Int!
+  createdAt: AWSDateTime!
+}
+
+type Order {
+  id: String!
+  customer: String!
+  status: Status!
+  fulfillment: Fulfillment!
+  total: Int!
+  items: Int!
+  createdAt: AWSDateTime!
+}
+
+enum Status {
+  PROCESSING
+  COMPLETE
+  CANCELLED
+}
+
+enum Fulfillment {
+  PROCESSING
+  COMPLETE
+  CANCELLED
+}
